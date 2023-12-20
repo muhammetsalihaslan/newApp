@@ -1,15 +1,36 @@
 import React from 'react';
-import {SafeAreaView, View, Text, FlatList, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Dimensions,
+} from 'react-native';
 import news_data from './news_data.json';
 import NewsCard from './components/NewsCard';
+import news_banner_data from './news_banner_data.json';
 
 function App() {
+  const renderNews = ({item}) => <NewsCard news={item} />;
+  const keyCall = item => item.u_id.toString();
   return (
     <SafeAreaView style={styles.container}>
       <View>
+        <ScrollView horizontal>
+          {news_banner_data.map(bannerNews => (
+            <Image
+              source={{uri: bannerNews.imageUrl}}
+              style={styles.banner_image}
+            />
+          ))}
+        </ScrollView>
         <FlatList
+          keyExtractor={keyCall}
           data={news_data}
-          renderItem={({item}) => <NewsCard news={item} />}
+          renderItem={renderNews}
         />
       </View>
     </SafeAreaView>
@@ -20,6 +41,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eceff1',
+  },
+  banner_image: {
+    height: Dimensions.get('window').height / 5,
+    width: Dimensions.get('window').width / 2,
   },
 });
 
