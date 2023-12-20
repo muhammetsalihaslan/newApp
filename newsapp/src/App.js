@@ -18,16 +18,19 @@ function App() {
   const keyCall = item => item.u_id.toString();
   return (
     <SafeAreaView style={styles.container}>
+      <Text style={styles.headerText}>News</Text>
       <View>
-        <ScrollView horizontal>
-          {news_banner_data.map(bannerNews => (
-            <Image
-              source={{uri: bannerNews.imageUrl}}
-              style={styles.banner_image}
-            />
-          ))}
-        </ScrollView>
         <FlatList
+          ListHeaderComponent={() => (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              {news_banner_data.map(bannerNews => (
+                <Image
+                  source={{uri: bannerNews.imageUrl}}
+                  style={styles.banner_image}
+                />
+              ))}
+            </ScrollView>
+          )}
           keyExtractor={keyCall}
           data={news_data}
           renderItem={renderNews}
@@ -46,6 +49,7 @@ const styles = StyleSheet.create({
     height: Dimensions.get('window').height / 5,
     width: Dimensions.get('window').width / 2,
   },
+  headerText: {fontSize: 50, fontWeight: 'bold', color: 'black'},
 });
 
 export default App;
